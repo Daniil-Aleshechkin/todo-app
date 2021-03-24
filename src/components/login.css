@@ -1,10 +1,22 @@
-.login{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 30%;
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1em;
 }
-.login>* {
-    margin: 0.5em
+.login > * {
+  margin: 0.5em;
+  width: 100%;
+}
+.login-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.login > div > input {
+  border-radius: 5px;
+  border: var(--primary) 2px solid;
 }
