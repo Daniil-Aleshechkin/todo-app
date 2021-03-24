@@ -1,0 +1,12 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.header>div {
+    margin-left: auto;
+}
+.title {
+    display: flex;
+    justify-content: center;
+}

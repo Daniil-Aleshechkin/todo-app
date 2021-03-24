@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Task from "./task";
 import axios from "axios";
+import './todo.css'
 
 window.axios = axios;
 
@@ -9,15 +10,16 @@ class Todo extends Component {
     super(props);
     this.state = {
       tasks: [],
+      headers: { 'Authorization': `Token ${props.token}` },
       isLoaded: false,
     };
   }
 
   componentDidMount() {
     var obj = this;
-
+    console.log(this.state.token)
     axios
-      .get("http://localhost:8000/api/task/all/")
+      .get("http://localhost:8000/api/task/all/", { headers: this.state.headers })
       .then((res) => obj.setState({ tasks: res.data, isLoaded: true }))
       .then((err) => console.log(err));
     // fetch("http://localhost:8000/api/task/all/")
@@ -39,7 +41,7 @@ class Todo extends Component {
       var newTask = { ...task, completed: task.completed ? false : true };
       var obj = this;
       axios
-        .put(`http://127.0.0.1:8000/api/task/${task.id}/update/`, newTask)
+        .put(`http://127.0.0.1:8000/api/task/${task.id}/update/`, newTask, { headers: this.state.headers })
         .then((res) => {
           tasks[taskIndex].completed = tasks[taskIndex].completed
             ? false
@@ -51,7 +53,7 @@ class Todo extends Component {
       var obj = this;
       let tasks = this.state.tasks.filter((task) => task.id !== deletedTask.id);
       axios
-        .delete(`http://127.0.0.1:8000/api/task/${deletedTask.id}/delete/`)
+        .delete(`http://127.0.0.1:8000/api/task/${deletedTask.id}/delete/`, { headers: this.state.headers })
         .then((res) => {
           obj.setState({ tasks });
         })
@@ -79,7 +81,7 @@ class Todo extends Component {
       let tasks = [...this.state.tasks];
       var newTask = { ...task, text: text, editing: false };
       axios
-        .put(`http://127.0.0.1:8000/api/task/${task.id}/update/`, newTask)
+        .put(`http://127.0.0.1:8000/api/task/${task.id}/update/`, newTask, { headers: this.state.headers })
         .then((res) => {
           tasks[tasks.indexOf(task)] = newTask;
           this.setState({ tasks });
@@ -90,7 +92,7 @@ class Todo extends Component {
   addTask = () => {
     let tasks = [...this.state.tasks];
     axios
-      .post("http://127.0.0.1:8000/api/task/create/", this.defaultTask)
+      .post("http://127.0.0.1:8000/api/task/create/", this.defaultTask, { headers: this.state.headers })
       .then((res) => {
         let newTask = { ...this.defaultTask };
         newTask.id = res.data.id;
@@ -122,17 +124,19 @@ class Todo extends Component {
     }
 
     return (
-      <div className="container-md">
-        <h1>Todo</h1>
-        {this.state.tasks.map((task, id) => {
-          return (
-            <Task
-              key={task.id}
-              task={task}
-              taskOperations={this.taskOperations}
-            />
-          );
-        })}
+      <div className="">
+        <div>
+          {this.state.tasks.map((task, id) => {
+            return (
+              <Task
+                key={task.id}
+                task={task}
+                taskOperations={this.taskOperations}
+              />
+            );
+          })}
+        </div>
+
         <button onClick={this.addTask} className="btn btn-primary float-right">
           Add
         </button>

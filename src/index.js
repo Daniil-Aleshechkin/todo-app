@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import Todo from "./components/todo";
+import TodoApp from './components/todo-app'
 import "bootstrap/dist/css/bootstrap.css";
 ReactDOM.render(
   <React.StrictMode>
-    <Todo />
+    <TodoApp />
   </React.StrictMode>,
   document.getElementById("root")
 );
